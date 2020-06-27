@@ -1,0 +1,57 @@
+{
+  "name": "shishimai",
+  "version": "0.1.1",
+  "description": "勤労の獅子打刻",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron . ",
+    "build:mac": "npx electron-builder --mac --x64",
+    "build:win": "npx electron-builder --win --x64"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dateformat": "^3.0.3",
+    "electron-store": "^5.2.0",
+    "puppeteer-core": "^4.0.1",
+    "puppeteer-in-electron": "^3.0.2"
+  },
+  "devDependencies": {
+    "dateformat": "^3.0.3",
+    "electron": "^9.0.5",
+    "electron-builder": "^22.7.0"
+  },
+  "build": {
+    "appId": "com.electron.kinrou",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "assets",
+      "src",
+      "package.json",
+      "package-lock.json",
+      "node_modules"
+    ],
+    "mac": {
+      "target": [
+        {
+          "target": "default",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "win": {
+      "icon": "assets/win/icon_win.ico",
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
