@@ -1,5 +1,6 @@
 const electron = require('electron');
 const app = electron.app;
+const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 const pie = require("puppeteer-in-electron");
 const puppeteer = require("puppeteer-core");
@@ -8,8 +9,12 @@ const ipc = require('electron').ipcMain
 const Store = require('electron-store');
 const store = new Store({});
 const kinrouUrl = "https://kinrou.sas-cloud.jp/kinrou/kojin/";
+var windowOptions;
+var window;
 // Render側に渡すためのメッセージ文字列
 var text = "";
+
+const conf = store.get("kinrou");
 
 // index.htmlからsendを受け取ったらrecieveを返すイベント
 ipc.on('send', function(event) {
@@ -17,11 +22,12 @@ ipc.on('send', function(event) {
     event.sender.send('receive', text)
 })
 
+const pwChange = async() => {
+};
 
 const main = async () => {
     let browser;
     let elm;
-    const conf = store.get("kinrou");
     await pie.initialize(app);
     browser = await pie.connect(app, puppeteer);
     const windowOptions = {
@@ -81,9 +87,33 @@ const main = async () => {
         // window.destroy();
     }
 };
+
 main().then(function() {
     console.info("main finished");
 });
+const template = [
+    {
+        "label":"メニュー",
+        "submenu": [{
+            "label": "ログイン情報", 
+            "click": async () => {
+                windowOptions = {
+                    webPreferences: {
+                        nodeIntegration: true
+                    }
+                };
+                window = new BrowserWindow(windowOptions);
+                await window.loadURL('file://' + __dirname + '/config.html');
+            }
+        }, {
+            "label": "パスワード変更", 
+            "click": pwChange()
+        }, {
+            "label": "実行", 
+            "click": main()
+        }]
+    }
+];
 
 app.on('window-all-closed', function() {
     console.log("window-all-closed", process.platform);
@@ -97,5 +127,7 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
     console.log("ready");
 });
