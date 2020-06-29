@@ -20,6 +20,7 @@ ipc.on('send', function(event) {
 
 const main = async () => {
     let browser;
+    let elm;
     const conf = store.get("kinrou");
     await pie.initialize(app);
     browser = await pie.connect(app, puppeteer);
@@ -48,7 +49,17 @@ const main = async () => {
         ]);
 
         // 打刻
-        await page.click("[name='dakoku']");
+        try {
+            await page.click("[name='dakoku']");
+        } catch (e) {
+            await Promise.all([
+                page.waitForSelector("#error"),
+                elm = await page.$("#error")
+            ]);
+            text = await page.evaluate(elm => elm.textContent, elm)
+            await window.loadURL('file://' + __dirname + '/index.html');
+            return;
+        }
 
         const d = new Date();
         const year = dateformat(d, 'yyyy');
@@ -58,7 +69,6 @@ const main = async () => {
         await page.goto(`https://kinrou.sas-cloud.jp/kinrou/dakokuList/index?syainCode=${conf.userId}&year=${year}&month=${month}&kijunDate=${kijunDate}`);
 
         let elms = await page.$$(".dakoku-all-list tr");
-        let elm;
         let dakokuType;
         let dakokuTime;
         text = "最後の打刻は：";
