@@ -1,5 +1,3 @@
-// TODO: 閉じたときの処理がまだおかしい
-const path = require("path");
 const electron = require('electron');
 const app = electron.app;
 const Menu = electron.Menu;
@@ -8,20 +6,21 @@ const pie = require("puppeteer-in-electron");
 const puppeteer = require("puppeteer-core");
 const dateformat = require('dateformat');
 const ipc = require('electron').ipcMain
-const Store = require('electron-store');
-const store = new Store({});
-const kinrouUrl = "https://kinrou.sas-cloud.jp/kinrou";
 const kinrouLib = require("../lib/kinrou.js");
 
 const debug = /--debug/.test(process.argv[2])
 require("update-electron-app");
 const logger = require("electron-log");
-
-let conf = store.get("kinrou", null);
+const Store = require('electron-store');
+let store;
+store = new Store({});
 if (debug) {
-    //conf.password = "xxxxxx";
-    conf = null;
+    store = new Store({
+        // TODO: 一個上の階層をpathモジュールとかで解決する
+        "cwd": __dirname
+    });
 }
+let conf = store.get("kinrou", null);
 
 // puppeteerを使うときはこのタイミングでinitializeする
 pie.initialize(app);
