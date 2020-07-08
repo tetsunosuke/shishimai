@@ -14,9 +14,13 @@ const kinrouUrl = "https://kinrou.sas-cloud.jp/kinrou";
 const kinrouLib = require("../lib/kinrou.js");
 
 const debug = /--debug/.test(process.argv[2])
+require("update-electron-app");
+const logger = require("electron-log");
+
 let conf = store.get("kinrou", null);
 if (debug) {
-    conf.password = "xxxxxx";
+    //conf.password = "xxxxxx";
+    conf = null;
 }
 
 // puppeteerを使うときはこのタイミングでinitializeする
@@ -24,16 +28,23 @@ pie.initialize(app);
 
 var mainWindow = null;
 
-require("update-electron-app");
-const logger = require("electron-log");
+
 // Render側に渡すためのメッセージ文字列
 var text = "";
 // main.htmlからsendを受け取ったらrecieveとともにテキストを返すイベント
-ipc.on('send', function(event) {
-    console.log("receive send message", text);
-    event.sender.send('receive', text)
-})
-
+ipc.on('loaded', function(event, arg) {
+    console.log(`receive loaded message:${arg}, reply text:${text}`);
+    event.reply("reply-text", text);
+});
+ipc.on('reload', function(event, arg) {
+    console.log(`receive loaded message:${arg}`);
+    // 設定があれば打刻処理を実施
+    conf = store.get("kinrou", null);
+    kinrouLib.dakoku(app, puppeteer, mainWindow, conf).then(v => {
+        text = v.text;
+        mainWindow.loadURL(v.url);
+    });
+});
 
 // メニューに関する情報
 const template = [
@@ -43,21 +54,28 @@ const template = [
             "label": "ログイン情報",
             "click": function(m,b,e) {
                 // logger.log(m, b, e);
-                kinrouLib.showConfig(conf);
+                kinrouLib.showConfig(app, puppeteer, mainWindow).then(v => {
+                    mainWindow.loadURL(v.url);
+                });
             },
             "accelerator":  "CmdOrCtrl+L"
         }, {
             "label": "パスワード変更",
             "click": function(m,b,e) {
                 // logger.log(m, b, e);
-                kinrouLib.showConfig(conf);
+                kinrouLib.showConfig(app, puppeteer, mainWindow).then(v => {
+                    mainWindow.loadURL(v.url);
+                });
             },
             "accelerator":  "CmdOrCtrl+P"
         }, {
             "label": "実行",
             "click": function(m,b,e) {
                 // logger.log(m, b, e);
-                kinrouLib.dakoku(mainWindow)
+                kinrouLib.dakoku(app, puppeteer, mainWindow, conf).then(v => {
+                    text = v.text;
+                    mainWindow.loadURL(v.url);
+                });
             },
             "accelerator":  "CmdOrCtrl+R"
         }]
@@ -96,12 +114,17 @@ const initialize = async () => {
         Menu.setApplicationMenu(menu);
         if (conf === null) {
             console.info("show config with config is null");
-            kinrouLib.showConfig(conf);
+            kinrouLib.showConfig(app, puppeteer, mainWindow).then(v => {
+                mainWindow.loadURL(v.url);
+            });
             return;
         }
 
         // 設定があれば打刻処理を実施
-        kinrouLib.dakoku(mainWindow);
+        kinrouLib.dakoku(app, puppeteer, mainWindow, conf).then(v => {
+            text = v.text;
+            mainWindow.loadURL(v.url);
+        });
     });
 
     app.on("browser-window-created", (o) => {

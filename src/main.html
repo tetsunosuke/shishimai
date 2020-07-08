@@ -10,21 +10,24 @@
 <script>
 const ipc = require('electron').ipcRenderer
 const mainWindow = require('electron').remote.getCurrentWindow();
+const app = require("electron").app;
+const puppeteer = require("puppeteer-core");
 
-
-// 読み込まれたらsendを送る
-console.log("send send message");
-ipc.send('send');
-// 送られた方からreceiveを受け取ったら発動してHTML書き換え
-ipc.on('receive', function(event, message) {
-    console.log("receive recieve message, and message writing",message);
-    document.getElementById('message').innerHTML = message
+// 送られた方からsendを受け取ったら発動してHTML書き換え
+ipc.send("loaded", "main.html is loaded");
+ipc.on("reply-text", (event, arg) => {
+    console.log(`replied text: ${arg}`);
+    document.getElementById('message').innerHTML = arg;
 });
 
 const kinrouLib = require("../lib/kinrou.js");
 const button = document.getElementById("config");
 button.addEventListener("click", () => {
-    kinrouLib.showConfig();
+    console.log("config button click");
+    kinrouLib.showConfig(app, puppeteer, mainWindow).then(v => {
+        mainWindow.loadURL(v.url);
+    });
+    return false;
 });
 </script>
 </body>
