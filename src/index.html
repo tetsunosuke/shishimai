@@ -5,17 +5,6 @@
 <title>獅子舞</title>
 </head>
 <body>
-<h1 id="message"></h1>
-<script>
-const ipc = require('electron').ipcRenderer
-// 読み込まれたらsendを送る
-console.log("send send message");
-ipc.send('send');
-// 送られた方からreceiveを受け取ったら発動してHTML書き換え
-ipc.on('receive', function(event, message) {
-    console.log("receive recieve message, and message writing",message);
-    document.getElementById('message').innerHTML = message
-});
-</script>
+<h1 id="message">index</h1>
 </body>
 </html>

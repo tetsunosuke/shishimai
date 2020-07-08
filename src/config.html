@@ -16,27 +16,34 @@
         <dd><input type="password" name="password"></dd>
     </dl>
     <button id="submit">送信</button>
+    <button id="dakoku">再度打刻実行</button>
 </form>
 <script>
 const Store = require('electron-store');
 const store = new Store({});
-store.set("hoge", {"fuga":"piyo"});
 const button = document.getElementById("submit");
 const form = document.getElementById("form");
 const conf = store.get("kinrou");
+const ipc = require('electron').ipcRenderer
+const mainWindow = require('electron').remote.getCurrentWindow();
+
 if (typeof conf !== "undefined") {
     form.houjinCode.value = typeof conf.houjinCode !== "undefined" ? conf.houjinCode : "";
     form.userId.value = typeof conf.userId !== "undefined" ? conf.userId : "";
     form.password.value = typeof conf.password !== "undefined" ? conf.password : "";
 } 
-button.addEventListener("click", function() {
+button.addEventListener("click", () => {
     store.set("kinrou", {
         "houjinCode": form.houjinCode.value,
         "userId": form.userId.value,
         "password": form.password.value
     });
-    alert("saved!");
+    alert("設定が保存されました");
     return false;
+});
+const dakoku = document.getElementById("dakoku");
+dakoku.addEventListener("click", () => {
+    ipc.send("reload", "再度打刻要求");
 });
 </script>
 </body>
