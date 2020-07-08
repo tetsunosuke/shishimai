@@ -1,11 +1,13 @@
 {
   "name": "shishimai",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "勤労の獅子打刻",
+  "repository": "https://github.com/tetsunosuke/shishimai",
   "main": "src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron . ",
+    "debug": "electron . --debug",
     "build:mac": "npx electron-builder --mac --x64",
     "build:win": "npx electron-builder --win --x64"
   },
@@ -13,13 +15,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bufferutil": "^4.0.1",
     "dateformat": "^3.0.3",
+    "electron-log": "^4.2.2",
     "electron-store": "^5.2.0",
+    "path": "^0.12.7",
     "puppeteer-core": "^4.0.1",
-    "puppeteer-in-electron": "^3.0.2"
+    "puppeteer-in-electron": "^3.0.2",
+    "update-electron-app": "^1.5.0",
+    "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
-    "dateformat": "^3.0.3",
     "electron": "^9.0.5",
     "electron-builder": "^22.7.0"
   },
