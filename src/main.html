@@ -6,8 +6,12 @@
 </head>
 <body>
 <h1 id="message"></h1>
+<button id="config">設定変更</button>
 <script>
 const ipc = require('electron').ipcRenderer
+const mainWindow = require('electron').remote.getCurrentWindow();
+
+
 // 読み込まれたらsendを送る
 console.log("send send message");
 ipc.send('send');
@@ -15,6 +19,12 @@ ipc.send('send');
 ipc.on('receive', function(event, message) {
     console.log("receive recieve message, and message writing",message);
     document.getElementById('message').innerHTML = message
+});
+
+const kinrouLib = require("../lib/kinrou.js");
+const button = document.getElementById("config");
+button.addEventListener("click", () => {
+    kinrouLib.showConfig();
 });
 </script>
 </body>
