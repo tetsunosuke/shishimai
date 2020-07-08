@@ -173,5 +173,13 @@ const dakoku = async () => {
     await mainWindow.loadURL('file://' + __dirname + '/main.html');
 }
 
+process.on('uncaughtException', function(err) {
+  logger.error('electron:event:uncaughtException');
+  logger.error(err);
+  logger.error(err.stack);
+  app.quit();
+});
+
 // 実行開始
 initialize();
+
