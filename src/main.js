@@ -7,7 +7,7 @@ const pie = require("puppeteer-in-electron");
 const puppeteer = require("puppeteer-core");
 const dateformat = require('dateformat');
 const ipc = require('electron').ipcMain
-const kinrouLib = require("../lib/kinrou.js");
+const kinrouLib = require(require('path').resolve(__dirname, '../lib/kinrou.js'));
 
 const debug = /--debug/.test(process.argv[2])
 require("update-electron-app");
@@ -20,7 +20,6 @@ if (debug) {
     });
 }
 let conf = store.get("kinrou", null);
-logger.info(conf);
 global.sharedObject = {
     store: store,
     debug: debug
