@@ -1,4 +1,5 @@
 const electron = require('electron');
+const session = require('electron').session;
 const app = electron.app;
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
@@ -12,15 +13,18 @@ const debug = /--debug/.test(process.argv[2])
 require("update-electron-app");
 const logger = require("electron-log");
 const Store = require('electron-store');
-let store;
-store = new Store({});
+let store = new Store({});
 if (debug) {
     store = new Store({
-        // TODO: 一個上の階層をpathモジュールとかで解決する
-        "cwd": __dirname
+        "cwd": require('path').resolve(__dirname, '..'),
     });
 }
 let conf = store.get("kinrou", null);
+logger.info(conf);
+global.sharedObject = {
+    store: store,
+    debug: debug
+};
 
 // puppeteerを使うときはこのタイミングでinitializeする
 pie.initialize(app);
@@ -91,7 +95,9 @@ const initialize = async () => {
             height: 680,
             title: "獅子舞",
             webPreferences: {
-                nodeIntegration: true
+                nodeIntegration: true,
+                // TODO: ここはIslandに変えて対応する
+                enableRemoteModule: true,
             }
         };
 
@@ -108,6 +114,15 @@ const initialize = async () => {
 
     app.on('ready', () => {
         logger.log("ready");
+        if (!debug) {
+            session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+                callback({
+                    responseHeaders: {
+                        'Content-Security-Policy': ['default-src \'self\' `${kinrouLib.kinrouUrl}']
+                    }
+                })
+            })
+        }
         createWindow();
         const menu = Menu.buildFromTemplate(template);
         Menu.setApplicationMenu(menu);

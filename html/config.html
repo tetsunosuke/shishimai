@@ -19,8 +19,12 @@
     <button id="dakoku">再度打刻実行</button>
 </form>
 <script>
-const Store = require('electron-store');
-const store = new Store({});
+const sharedObject  = require("electron").remote.getGlobal("sharedObject");
+const debug = sharedObject.debug;
+const store = sharedObject.store;
+
+//const Store = require('electron-store');
+//const store = new Store({});
 const button = document.getElementById("submit");
 const form = document.getElementById("form");
 const conf = store.get("kinrou");
@@ -43,7 +47,13 @@ button.addEventListener("click", () => {
 });
 const dakoku = document.getElementById("dakoku");
 dakoku.addEventListener("click", () => {
+    store.set("kinrou", {
+        "houjinCode": form.houjinCode.value,
+        "userId": form.userId.value,
+        "password": form.password.value
+    });
     ipc.send("reload", "再度打刻要求");
+    return false;
 });
 </script>
 </body>
