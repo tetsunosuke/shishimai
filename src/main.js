@@ -114,15 +114,18 @@ const initialize = async () => {
 
     app.on('ready', () => {
         logger.log("ready");
+        /*
+         * TODO セキュリティ対応
         if (!debug) {
             session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
                 callback({
                     responseHeaders: {
-                        'Content-Security-Policy': ['default-src \'self\' `${kinrouLib.kinrouUrl}']
+                        'Content-Security-Policy': [`default-src \'self\' ${kinrouLib.kinrouUrl}`]
                     }
                 })
             })
         }
+        */
         createWindow();
         const menu = Menu.buildFromTemplate(template);
         Menu.setApplicationMenu(menu);
