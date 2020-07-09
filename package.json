@@ -3,7 +3,7 @@
   "version": "0.3.1",
   "description": "勤労の獅子打刻",
   "repository": "https://github.com/tetsunosuke/shishimai",
-  "main": "src/main.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron . ",
@@ -36,7 +36,9 @@
     },
     "files": [
       "assets",
-      "src",
+      "html",
+      "lib",
+      "main.js",
       "package.json",
       "package-lock.json",
       "node_modules"
