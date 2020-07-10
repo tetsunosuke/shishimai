@@ -6,6 +6,7 @@
 
 - headless chromeで動かせるように（理想的にはウィンドウ最小化、通知バーだけで処理）
 - パスワード変更の自動化
+- 最新バージョンへの自動アップデート： https://github.com/iffy/electron-updater-example
 
 ## リファクタリング的要素
 
