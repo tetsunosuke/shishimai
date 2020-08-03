@@ -23,9 +23,8 @@ const sharedObject  = require("electron").remote.getGlobal("sharedObject");
 const debug = sharedObject.debug;
 const store = sharedObject.store;
 
-//const Store = require('electron-store');
-//const store = new Store({});
 const button = document.getElementById("submit");
+const dakoku = document.getElementById("dakoku");
 const form = document.getElementById("form");
 const conf = store.get("kinrou");
 const ipc = require('electron').ipcRenderer
@@ -45,7 +44,6 @@ button.addEventListener("click", () => {
     alert("設定が保存されました");
     return false;
 });
-const dakoku = document.getElementById("dakoku");
 dakoku.addEventListener("click", () => {
     store.set("kinrou", {
         "houjinCode": form.houjinCode.value,

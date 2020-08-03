@@ -58,7 +58,7 @@ const template = [
             "label": "ログイン情報",
             "click": function(m,b,e) {
                 // logger.log(m, b, e);
-                kinrouLib.showConfig(app, puppeteer, mainWindow).then(v => {
+                kinrouLib.showConfig().then(v => {
                     mainWindow.loadURL(v.url);
                 });
             },
@@ -67,7 +67,7 @@ const template = [
             "label": "パスワード変更",
             "click": function(m,b,e) {
                 // logger.log(m, b, e);
-                kinrouLib.showConfig(app, puppeteer, mainWindow).then(v => {
+                kinrouLib.showConfig().then(v => {
                     mainWindow.loadURL(v.url);
                 });
             },
@@ -132,7 +132,7 @@ const initialize = async () => {
         Menu.setApplicationMenu(menu);
         if (conf === null) {
             console.info("show config with config is null");
-            kinrouLib.showConfig(app, puppeteer, mainWindow).then(v => {
+            kinrouLib.showConfig().then(v => {
                 mainWindow.loadURL(v.url);
             });
             return;

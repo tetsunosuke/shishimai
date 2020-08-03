@@ -24,7 +24,7 @@ const kinrouLib = require("../lib/kinrou.js");
 const button = document.getElementById("config");
 button.addEventListener("click", () => {
     console.log("config button click");
-    kinrouLib.showConfig(app, puppeteer, mainWindow).then(v => {
+    kinrouLib.showConfig().then(v => {
         mainWindow.loadURL(v.url);
     });
     return false;
