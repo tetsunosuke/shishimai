@@ -1,6 +1,6 @@
 {
   "name": "shishimai",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "勤労の獅子打刻",
   "repository": "https://github.com/tetsunosuke/shishimai",
   "main": "main.js",
