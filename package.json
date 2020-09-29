@@ -18,7 +18,7 @@
     "bufferutil": "^4.0.1",
     "dateformat": "^3.0.3",
     "electron-log": "^4.2.2",
-    "electron-store": "^5.2.0",
+    "electron-store": "^6.0.0",
     "path": "^0.12.7",
     "puppeteer-core": "^4.0.1",
     "puppeteer-in-electron": "^3.0.3",
