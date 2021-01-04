@@ -23,7 +23,7 @@
     "puppeteer-core": "^5.5.0",
     "puppeteer-in-electron": "^3.0.3",
     "update-electron-app": "^2.0.1",
-    "utf-8-validate": "^5.0.3"
+    "utf-8-validate": "^5.0.4"
   },
   "devDependencies": {
     "electron": "^11.1.0",
