@@ -20,7 +20,7 @@
     "electron-log": "^4.3.0",
     "electron-store": "^8.0.0",
     "path": "^0.12.7",
-    "puppeteer-core": "^5.5.0",
+    "puppeteer-core": "^8.0.0",
     "puppeteer-in-electron": "^3.0.3",
     "update-electron-app": "^2.0.1",
     "utf-8-validate": "^5.0.4"
