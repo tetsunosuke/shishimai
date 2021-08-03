@@ -152,9 +152,9 @@ const initialize = async () => {
 
     app.on('window-all-closed', () => {
         console.info("platformがdarwinの場合にapp.quitが呼ばれないが良いのか？");
-        if (process.platform != 'darwin') {
+        // if (process.platform != 'darwin') {
             app.quit();
-        }
+        // }
     });
 
     app.on('activate', () => {
