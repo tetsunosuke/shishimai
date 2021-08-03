@@ -1,6 +1,6 @@
 {
   "name": "shishimai",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "勤労の獅子打刻",
   "repository": "https://github.com/tetsunosuke/shishimai",
   "main": "main.js",
@@ -44,19 +44,13 @@
       "node_modules"
     ],
     "mac": {
-      "target": [
-        {
-          "target": "default",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
+      "category": "com.electron.kinrou"
     },
     "win": {
       "icon": "assets/win/icon_win.ico",
       "target": "nsis"
     },
+    "npmRebuild": "false",
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
