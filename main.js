@@ -82,7 +82,10 @@ const template = [
                 });
             },
             "accelerator":  "CmdOrCtrl+R"
-        }]
+        },
+        { label: "コピー", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: "ペースト", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        ]
     }
 ];
 
