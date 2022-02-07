@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "electron": "^13.2.2",
-    "electron-builder": "^22.9.1"
+    "electron-builder": "^22.14.13"
   },
   "build": {
     "appId": "com.electron.kinrou",
